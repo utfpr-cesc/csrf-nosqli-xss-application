@@ -4,5 +4,30 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: blue;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  text-align: right;
+}
+
+nav a {
+  padding-left: 1em;
+}
+
+.info {
+  color: cornflowerblue;
+  font-style: italic;
+}
+.success {
+  color: green;
+  font-weight: bold;
+}
+.danger {
+  color: crimson;
+  font-weight: bold;
 }

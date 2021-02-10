@@ -40,6 +40,11 @@ app.use(session({
   resave: false,
   store: new FileStore(),
 }));
+app.use(function(req,res,next){
+  res.locals.session = req.session; // Exposes session data to `locals` scope.
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Public (unauthenticated) routes:
@@ -62,9 +67,7 @@ app.use(
       return;
     } else {
       console.error(`[AUTH] No user cookie (userCookie === ${userCookie}) on request to "${req.url}"`);
-      res.statusCode = 401; // Unauthorized.
-      res.setHeader('Content-Type', 'text/plain');
-      res.send(`User is not authenticated.`);
+      res.redirect('/login');
     }
 
   }

@@ -5,6 +5,23 @@ router.use(bodyParser.json());
 
 const Users = require('../models/users');
 
+/* GET users list page. */
+router.get('/list', function(req, res, next) {
+  Users.find({}).then(
+    (users) => {
+      res.render('users-list', {
+        users: users.map(
+          (user) => ({
+            id: user._id,
+            name: user.username
+          })
+        )
+      });
+    },
+    (err) => next(err)
+  ).catch((err) => next(err));
+});
+
 /* GET all users */
 router.get('/', function(req, res, next) {
   Users.find({}).then(

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 List of users
+  - if (users.length > 0)
+    p Currently registered users:
+    ul
+      each user in users
+        li= user.name
+  - else
+    p No users found.

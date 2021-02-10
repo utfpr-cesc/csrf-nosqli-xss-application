@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1 User sign-in
+  p Please insert your credentials:
+  form(onsubmit='signIn(this); return false;')
+    p
+      input(type='text', name='username', placeholder='username', autofocus)
+    p
+      input(type='password', name='password', placeholder='password')
+    button(type='submit') Sign-in
+    output(id='message')

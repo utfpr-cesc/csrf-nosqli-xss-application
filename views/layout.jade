@@ -3,5 +3,14 @@ html
   head
     title CSRF, NoSQL Injection and XSS target application
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/scripts/index.js')
+    script(src='/scripts/auth.js')
   body
+    nav
+      a(href='/') Home
+      - if (session.user)
+        a(href='/users/list') Users
+        a(href='javascript: signOut();', id="logout") Sign out
+      - else
+        a(href='/login') Sign in
     block content
