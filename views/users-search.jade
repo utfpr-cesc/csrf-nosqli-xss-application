@@ -1,0 +1,14 @@
+extends layout
+
+block content
+
+  h1 Search results for "#[b#query]":
+  script.
+    document.querySelector(`#query`).innerHTML = getQueryParam("query") || '';
+
+  - if (users.length > 0)
+    ul
+      each user in users
+        li= user.name
+  - else
+    p No users found.

@@ -7,6 +7,11 @@ html
     script(src='/scripts/auth.js')
   body
     nav
+      form(action='/users/search', method='GET').input-group
+        input(autofocus, type='text', name='query', placeholder='search users...')
+        script.
+          document.querySelector(`input[name=query]`).value = getQueryParam("query");
+        button(type='submit', id='search-button') Search
       a(href='/') Home
       - if (session.user)
         a(href='/users/list') Users

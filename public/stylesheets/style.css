@@ -31,3 +31,11 @@ nav a {
   color: crimson;
   font-weight: bold;
 }
+
+.input-group {
+  display: inline-block;
+}
+
+.input-group input, .input-group button {
+  height: 38px;
+}

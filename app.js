@@ -12,6 +12,7 @@ const connect = mongoose.connect(`${url}${dbname}`);
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
+var usersSearchRouter = require('./routes/users-search');
 var usersRouter = require('./routes/users');
 
 // Connects to the database:
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Public (unauthenticated) routes:
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/users', usersSearchRouter);
 
 app.use(
   /**
