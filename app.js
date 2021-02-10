@@ -1,15 +1,17 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 const url = `mongodb://localhost:27017/`;
 const dbname = `csrf_nosqli_xss_application`;
 const connect = mongoose.connect(`${url}${dbname}`);
 
 var indexRouter = require('./routes/index');
+var authRouter = require('./routes/auth');
 var usersRouter = require('./routes/users');
 
 // Connects to the database:
@@ -31,10 +33,44 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(session({
+  name: 'session-id',
+  secret: '12345-67890-09876-54321',
+  saveUninitialized: false,
+  resave: false,
+  store: new FileStore(),
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Public (unauthenticated) routes:
 app.use('/', indexRouter);
+app.use('/auth', authRouter);
+
+app.use(
+  /**
+   * Custom session validation middleware.
+   *
+   * @param {express.Request} req Request object.
+   * @param {express.Response} res Response object.
+   * @param {express.NextFunction} next Next function.
+   */
+  function (req, res, next) {
+
+    const userCookie = req.session.user;
+    if (userCookie) {
+      next();
+      return;
+    } else {
+      console.error(`[AUTH] No user cookie (userCookie === ${userCookie}) on request to "${req.url}"`);
+      res.statusCode = 401; // Unauthorized.
+      res.setHeader('Content-Type', 'text/plain');
+      res.send(`User is not authenticated.`);
+    }
+
+  }
+)
+
+// Private (authenticated) routes:
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
