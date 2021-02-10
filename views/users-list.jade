@@ -6,6 +6,10 @@ block content
     p Currently registered users:
     ul
       each user in users
-        li= user.name
+        li.
+          [
+          #[a(href='javascript: deleteUser("' + user.id + '"); void(0);', id="delete-" + user.id).danger Delete]
+          ]
+          #{user.name}
   - else
     p No users found.
