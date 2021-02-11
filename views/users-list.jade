@@ -1,6 +1,17 @@
 extends layout
 
 block content
+
+  h1 Add user
+  p Please choose a username and a password for the new user:
+  form(onsubmit='register(this); return false;')
+    p
+      input(type='text', name='username', placeholder='username')
+    p
+      input(type='password', name='password', placeholder='password')
+    button(type='submit') Register
+    output(id='message')
+
   h1 List of users
   - if (users.length > 0)
     p Currently registered users:
