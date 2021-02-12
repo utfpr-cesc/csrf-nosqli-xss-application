@@ -9,9 +9,7 @@ html
   body
     nav
       form(action='/users/search', method='GET').input-group
-        input(autofocus, type='text', name='query', placeholder='search users...')
-        script.
-          document.querySelector(`input[name=query]`).value = getQueryParam("query");
+        input(autofocus, type='text', name='query', placeholder='search users...', value=query)
         button(type='submit', id='search-button') Search
       a(href='/') Home
       - if (session.user)

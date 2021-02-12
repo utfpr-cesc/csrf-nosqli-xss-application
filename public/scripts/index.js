@@ -3,7 +3,3 @@ function output(msg, className = '', elementSelector = '#message') {
   outputElement.innerHTML = msg;
   outputElement.className = className;
 }
-
-function getQueryParam(paramName) {
-  return new URL(location).searchParams.get(paramName) || '';
-}

@@ -43,6 +43,9 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   store: new FileStore(),
+  cookie: {
+    sameSite: 'strict',
+  },
 }));
 app.use(function(req,res,next){
   res.locals.session = req.session; // Exposes session data to `locals` scope.
