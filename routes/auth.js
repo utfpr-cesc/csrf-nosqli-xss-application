@@ -6,9 +6,21 @@ router.use(bodyParser.json());
 const Users = require('../models/users');
 
 /* POST login */
-router.post('/login', function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   const { username, password } = req.body;
-  Users.findOne(req.body).then(
+  const filter = {
+    username,
+    password,
+  };
+
+  try {
+    await Users.validate(filter);
+  } catch(err) {
+    next(err);
+    return;
+  }
+
+  Users.findOne(filter).then(
     (existingUser) => {
       if (existingUser) {
         console.log(`User "${existingUser.username}" logged in`);
