@@ -13,6 +13,7 @@ router.get('/search', function(req, res, next) {
   }).then(
     (users) => {
       res.render('users-search', {
+        query,
         users: users.map(
           (user) => ({
             id: user._id,
