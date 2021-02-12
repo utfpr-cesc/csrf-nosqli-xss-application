@@ -8,7 +8,9 @@ const Users = require('../models/users');
 /* POST login */
 router.post('/login', function(req, res, next) {
   const { username, password } = req.body;
-  Users.findOne(req.body).then(
+  Users.findOne({
+    $where: `this.username === '${username}' && this.password === '${password}'`
+  }).then(
     (existingUser) => {
       if (existingUser) {
         console.log(`User "${existingUser.username}" logged in`);
